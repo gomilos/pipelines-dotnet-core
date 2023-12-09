@@ -24,7 +24,7 @@ name: $(date:yyyyMMdd)$(rev:.r)
 stages:
 - stage: Build
   jobs:
-- job: BuildJob  
+  - job: BuildJob 
   steps:  
   - task: DotNetCoreCLI@2
     displayName: Restore

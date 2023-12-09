@@ -14,10 +14,9 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-- name: BuildParameters.RestoreBuildProjects
-  value: '**/*.csproj'
-- name: BuildParameters.TestProjects
-  value: '**/*[Tt]ests/*.csproj'
+  RestoreBuildProjects: '**/*.csproj'
+  TestProjects: '**/*[Tt]ests/*.csproj'
+  BuildConfiguration: 'Release'
 
 name: $(date:yyyyMMdd)$(rev:.r)
 
@@ -30,24 +29,24 @@ stages:
       displayName: Restore
       inputs:
         command: restore
-        projects: $(BuildParameters.RestoreBuildProjects)
+        projects: '$(RestoreBuildProjects)'
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
-        projects: $(BuildParameters.RestoreBuildProjects)
-        arguments: --no-restore --configuration $(BuildConfiguration)
+        projects: '$(RestoreBuildProjects)'
+        arguments: --no-restore --configuration '$(BuildConfiguration)'
     - task: DotNetCoreCLI@2
       displayName: Test
       inputs:
         command: test
-        projects: $(BuildParameters.TestProjects)
-        arguments: --configuration $(BuildConfiguration)
+        projects: $(TestProjects)
+        arguments: --configuration '$(BuildConfiguration)'
     - task: DotNetCoreCLI@2
       displayName: Publish
       inputs:
         command: publish
         publishWebProjects: True
-        projects: $(BuildParameters.RestoreBuildProjects)
+        projects: '$(RestoreBuildProjects)'
         arguments: --configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)
         zipAfterPublish: True
     - task: PublishBuildArtifacts@1
@@ -56,4 +55,3 @@ stages:
       inputs:
         PathtoPublish: $(build.artifactstagingdirectory)
         TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
-

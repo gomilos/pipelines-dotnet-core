@@ -55,18 +55,18 @@ stages:
       inputs:
         PathtoPublish: $(build.artifactstagingdirectory)
         TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
-- stage: Deploy
-  jobs:
-  - deployment: DeployWeb
-    displayName: deploy Web App
-    pool:
-      vmImage: ubuntu-latest
-    # creates an environment if it doesn't exist
-    environment: 'pipelinesdontnetcore-dev'
-    strategy:
-      # default deployment strategy, more coming...
-      runOnce:
-        deploy:
-          steps:
-          - script: echo my first deployment
+#- stage: Deploy
+#  jobs:
+#  - deployment: DeployWeb
+#    displayName: deploy Web App
+#    pool:
+#      vmImage: ubuntu-latest
+#    # creates an environment if it doesn't exist
+#    environment: 'pipelinesdontnetcore-dev'
+#    strategy:
+#      # default deployment strategy, more coming...
+#      runOnce:
+#        deploy:
+#          steps:
+#          - script: echo my first deployment
     
